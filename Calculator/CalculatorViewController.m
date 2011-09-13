@@ -10,35 +10,34 @@
 
 @implementation CalculatorViewController
 
-- (void)didReceiveMemoryWarning
+-(CalculatorBrain *)brain
 {
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-    
-    // Release any cached data, images, etc that aren't in use.
+    if(!brain) brain = [[CalculatorBrain alloc] init];
+    return brain;
 }
 
-#pragma mark - View lifecycle
-
-/*
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
-- (void)viewDidLoad
+- (IBAction)digitPressed:(UIButton *)sender
 {
-    [super viewDidLoad];
+    NSString *digit = sender.titleLabel.text;
+    if (userIsInTheMiddleOfTypingANumber){
+        display.text = [display.text stringByAppendingString:digit];
+    }
+    else
+    {
+        display.text = digit;
+        userIsInTheMiddleOfTypingANumber = YES;
+    }
 }
-*/
-
-- (void)viewDidUnload
+- (IBAction)operationPressed:(UIButton *)sender
 {
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+    if (userIsInTheMiddleOfTypingANumber){
+        [self brain].operand = [display.text doubleValue];
+        userIsInTheMiddleOfTypingANumber = NO;
+        
+    }
+    NSString *operation = sender.titleLabel.text;
+    double result = [[self brain] performOperation:operation];
+    display.text = [NSString stringWithFormat:@"%g", result];
 }
 
 @end

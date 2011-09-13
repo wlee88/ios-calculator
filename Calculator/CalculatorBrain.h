@@ -10,4 +10,9 @@
 
 @interface CalculatorBrain : NSObject
 
+@property double operand;
+@property double memStore;
+@property (retain, nonatomic) NSString *waitingOperation;
+@property double waitingOperand;
+-(double)performOperation:(NSString *)operation;
 @end

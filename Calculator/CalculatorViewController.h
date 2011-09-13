@@ -12,6 +12,7 @@
 @interface CalculatorViewController : UIViewController {
     IBOutlet UILabel *display;
     CalculatorBrain *brain;
+    BOOL userIsInTheMiddleOfTypingANumber;
 }
 
 - (IBAction)digitPressed:(UIButton *)sender;
